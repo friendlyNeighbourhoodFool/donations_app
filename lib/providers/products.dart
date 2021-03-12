@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import './product.dart';
+
+import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
-    Product(
+    /*  Product(
       id: 'p1',
       title: 'Red Shirt',
       description: 'A red shirt - it is pretty red!',
@@ -35,7 +38,7 @@ class Products with ChangeNotifier {
       price: 49.99,
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
-    ),
+    ),*/
   ];
   // var _showFavoritesOnly = false;
 
@@ -64,22 +67,86 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addProduct(Product product) {
-    final newProduct = Product(
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      id: DateTime.now().toString(),
-    );
-    _items.add(newProduct);
-    // _items.insert(0, newProduct); // at the start of the list
-    notifyListeners();
+  Future<void> fetchAndSetProducts() async {
+    const url =
+        'https://myshop-grpproject-default-rtdb.firebaseio.com/products.json';
+    try {
+      final response = await http.get(Uri.parse(url));
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
+      if (extractedData == null) {
+        return;
+      }
+
+      final List<Product> loadedProducts = [];
+
+      extractedData.forEach((prodId, prodData) {
+        loadedProducts.add(Product(
+          id: prodId,
+          title: prodData['title'],
+          description: prodData['description'],
+          price: prodData['price'],
+          isFavorite: prodData['isFavorite'],
+          imageUrl: prodData['imageUrl'],
+        ));
+      });
+
+      //print(json.decode(response.body));
+      _items = loadedProducts;
+      notifyListeners();
+    } catch (error) {
+      throw (error);
+    }
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> addProduct(Product product) async {
+    const url =
+        'https://myshop-grpproject-default-rtdb.firebaseio.com/products.json';
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: json.encode({
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }),
+      );
+      final newProduct = Product(
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        id: json.decode(response.body)['name'],
+      );
+      _items.add(newProduct);
+      // _items.insert(0, newProduct); // at the start of the list
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+
+    //print(json.decode(response.body));
+  }
+
+  String url(String url) => url;
+
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
+      final url =
+          'https://myshop-grpproject-default-rtdb.firebaseio.com/products/$id.json';
+
+      await http.patch(Uri.parse(url),
+          body: json.encode({
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'imageUrl': newProduct.imageUrl,
+            'price': newProduct.price,
+          }));
       _items[prodIndex] = newProduct;
       notifyListeners();
     } else {
@@ -87,8 +154,22 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+  Future<void> deleteProduct(String id) async {
+    final url =
+        'https://myshop-grpproject-default-rtdb.firebaseio.com/products/$id.json';
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    var existingProduct = _items[existingProductIndex];
+
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    final response = await http.delete(Uri.parse(url));
+
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+
+      notifyListeners();
+      throw HttpException('Could not delete product');
+    }
+    existingProduct = null;
   }
 }
