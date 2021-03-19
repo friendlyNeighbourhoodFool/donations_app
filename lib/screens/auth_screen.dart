@@ -94,8 +94,10 @@ class AuthCard extends StatefulWidget {
   _AuthCardState createState() => _AuthCardState();
 }
 
+
 class _AuthCardState extends State<AuthCard>
     with SingleTickerProviderStateMixin {
+class _AuthCardState extends State<AuthCard> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
@@ -147,6 +149,7 @@ class _AuthCardState extends State<AuthCard>
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text('An Error Occurred!'),
+        title: Text('An error occured!'),
         content: Text(message),
         actions: <Widget>[
           FlatButton(
@@ -155,6 +158,7 @@ class _AuthCardState extends State<AuthCard>
               Navigator.of(ctx).pop();
             },
           )
+          ),
         ],
       ),
     );
@@ -235,6 +239,8 @@ class _AuthCardState extends State<AuthCard>
         curve: Curves.easeIn,
         height: _authMode == AuthMode.Signup ? 320 : 260,
         // height: _heightAnimation.value.height,
+      child: Container(
+        height: _authMode == AuthMode.Signup ? 320 : 260,
         constraints:
             BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
         width: deviceSize.width * 0.75,
@@ -296,6 +302,20 @@ class _AuthCardState extends State<AuthCard>
                     ),
                   ),
                 ),
+                if (_authMode == AuthMode.Signup)
+                  TextFormField(
+                    enabled: _authMode == AuthMode.Signup,
+                    decoration: InputDecoration(labelText: 'Confirm Password'),
+                    obscureText: true,
+                    validator: _authMode == AuthMode.Signup
+                        ? (value) {
+                            if (value != _passwordController.text) {
+                              return 'Passwords do not match!';
+                            }
+                          }
+                        : null,
+                  ),
+
                 SizedBox(
                   height: 20,
                 ),

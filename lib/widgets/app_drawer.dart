@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import '../screens/orders_screen.dart';
 import '../screens/user_products_screen.dart';
 import '../providers/auth.dart';
+
 import '../helpers/custom_route.dart';
+
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -52,6 +54,7 @@ class AppDrawer extends StatelessWidget {
 
               // Navigator.of(context)
               //     .pushReplacementNamed(UserProductsScreen.routeName);
+
               Provider.of<Auth>(context, listen: false).logout();
             },
           ),

@@ -14,6 +14,7 @@ import './screens/user_products_screen.dart';
 import './screens/edit_product_screen.dart';
 import './screens/auth_screen.dart';
 import './helpers/custom_route.dart';
+import './providers/auth.dart';
 
 void main() => runApp(MyApp());
 
