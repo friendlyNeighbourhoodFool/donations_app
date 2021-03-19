@@ -28,11 +28,13 @@ class ProductItem extends StatelessWidget {
               arguments: product.id,
             );
           },
-          /************Doubt *************/
-          child: Image.network(
-            //check here
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/organ.jpg'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         footer: GridTileBar(
@@ -44,7 +46,10 @@ class ProductItem extends StatelessWidget {
               ),
               color: Theme.of(context).accentColor,
               onPressed: () {
-                product.toggleFavoriteStatus(authData.token, authData.userId);
+                product.toggleFavoriteStatus(
+                  authData.token,
+                  authData.userId,
+                );
               },
             ),
           ),
