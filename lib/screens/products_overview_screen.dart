@@ -51,7 +51,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MyShop'),
+        title: Text('Aabhar'),
         actions: <Widget>[
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
@@ -96,8 +96,29 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       drawer: AppDrawer(),
       body: _isLoading
           ? Center(
-              child: CircularProgressIndicator(),
-            )
+              child: //CircularProgressIndicator(),
+
+                  MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset('assets/images/aabhar.jpg'),
+                      Text(
+                        'Loading......',
+                        style: TextStyle(
+                          color: Colors
+                              .black, //Theme.of(context).accentTextTheme.title.color,
+                          fontSize: 30,
+                          fontFamily: 'Lato',
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ))
           : ProductsGrid(_showOnlyFavorites),
     );
   }
