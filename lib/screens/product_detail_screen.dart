@@ -78,13 +78,14 @@ class ProductDetailScreen extends StatelessWidget {
                   height: 25,
                 ),
                 Container(
-                  color: Colors.yellowAccent,
+                  //color: Colors.yellowAccent,
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: double.infinity,
                   child: Text(
                     loadedProduct.description,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.w100),
+                    style: TextStyle(
+                        fontFamily: 'Lato', fontWeight: FontWeight.w100),
                     softWrap: true,
                   ),
                 ),

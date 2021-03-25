@@ -24,8 +24,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(255, 69, 0, .9).withOpacity(1),
-                  Color.fromRGBO(0, 255, 100, .6).withOpacity(0),
+                  Color.fromRGBO(153, 187, 255, .2).withOpacity(1),
+                  Color.fromRGBO(0, 78, 255, .6).withOpacity(0),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -43,15 +43,15 @@ class AuthScreen extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 20.0),
+                      margin: EdgeInsets.only(bottom: 10.0),
                       padding:
-                          EdgeInsets.symmetric(vertical: 6.0, horizontal: 40.0),
+                          EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
                       //transform: Matrix4.rotationZ(-8 * pi / 180)
                       //  ..translate(-8.0),
                       // ..translate(-10.0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.red.shade500,
+                        borderRadius: BorderRadius.circular(40),
+                        color: Colors.white,
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 8,
@@ -63,11 +63,11 @@ class AuthScreen extends StatelessWidget {
                       child: Text(
                         'Aabhar',
                         style: TextStyle(
-                          color: Colors
-                              .white, //Theme.of(context).accentTextTheme.title.color,
+                          color: Colors.blue
+                              .shade500, //Theme.of(context).accentTextTheme.title.color,
                           fontSize: 60,
-                          fontFamily: 'Lato',
-                          fontWeight: FontWeight.w100,
+                          fontFamily: 'Pacifico',
+                          //fontWeight: FontWeight.w100,
                         ),
                       ),
                     ),
@@ -187,13 +187,13 @@ class _AuthCardState extends State<AuthCard>
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'This email address is already in use.';
+        errorMessage = 'This email address / username is already in use.';
       } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email address';
+        errorMessage = 'This is not a valid email address / username';
       } else if (error.toString().contains('WEAK_PASSWORD')) {
         errorMessage = 'This password is too weak.';
       } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a user with that email.';
+        errorMessage = 'Could not find a user with that email / username.';
       } else if (error.toString().contains('INVALID_PASSWORD')) {
         errorMessage = 'Invalid password.';
       }
@@ -262,7 +262,7 @@ class _AuthCardState extends State<AuthCard>
                   obscureText: true,
                   controller: _passwordController,
                   validator: (value) {
-                    if (value.isEmpty || value.length < 5) {
+                    if (value.isEmpty || value.length < 4) {
                       return 'Password is too short!';
                     }
                   },
@@ -330,20 +330,21 @@ class _AuthCardState extends State<AuthCard>
                         Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
                     onPressed: _submit,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(40),
                     ),
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                    color: Theme.of(context).primaryColor,
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                    color:
+                        Colors.blue.shade700, //Theme.of(context).primaryColor,
                     textColor: Theme.of(context).primaryTextTheme.button.color,
                   ),
                 FlatButton(
                   child: Text(
                       '${_authMode == AuthMode.Login ? 'SIGN UP' : 'LOGIN'} '),
                   onPressed: _switchAuthMode,
-                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 4),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  textColor: Theme.of(context).primaryColor,
+                  textColor: Colors.lightBlue, //Theme.of(context).primaryColor,
                 ),
               ],
             ),
