@@ -50,8 +50,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             //brightness: Brightness.dark,
             /* DARK MODE */
-            primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
+            primarySwatch: Colors.blue,
+            accentColor: Colors.red,
             fontFamily: 'Lato',
             pageTransitionsTheme: PageTransitionsTheme(
               builders: {
