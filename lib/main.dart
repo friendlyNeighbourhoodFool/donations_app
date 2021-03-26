@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/screens/tabs_screen.dart';
 import 'package:provider/provider.dart';
-
+import './screens/tabs_screen.dart';
 import './screens/splash_screen.dart';
 import './screens/cart_screen.dart';
 import './screens/products_overview_screen.dart';
@@ -46,10 +47,12 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
-          title: 'MyShop',
+          title: 'Aabhar',
           theme: ThemeData(
-            primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
+            //brightness: Brightness.dark,
+            /* DARK MODE */
+            primarySwatch: Colors.blue,
+            accentColor: Colors.red,
             fontFamily: 'Lato',
             pageTransitionsTheme: PageTransitionsTheme(
               builders: {
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           home: auth.isAuth
-              ? ProductsOverviewScreen()
+              ? TabsScreen()
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
                   builder: (ctx, authResultSnapshot) =>

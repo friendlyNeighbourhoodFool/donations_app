@@ -7,7 +7,6 @@ import '../providers/auth.dart';
 
 import '../helpers/custom_route.dart';
 
-
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: Text('Hello Friend!'),
+            title: Text('Menu'),
             automaticallyImplyLeading: false,
           ),
           Divider(),
