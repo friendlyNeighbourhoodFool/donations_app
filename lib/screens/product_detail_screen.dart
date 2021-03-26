@@ -25,20 +25,26 @@ class ProductDetailScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: 300,
+            expandedHeight: 350,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(
+              /* title: Text(
                 loadedProduct.title,
+                //textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
-              ),
+
+                textAlign: TextAlign.center,
+                //
+              ),*/
               background: Hero(
                 tag: loadedProduct.id,
                 child: Image.network(
                   loadedProduct.imageUrl,
-                  fit: BoxFit.cover,
+                  //scale: 2.0,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -46,24 +52,40 @@ class ProductDetailScreen extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 Text(
-                  '\$${loadedProduct.price}',
+                  loadedProduct.title,
+                  //textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontSize: 38,
+                    //height: 20,
+                  ),
+
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  ' Price : ₹ ${loadedProduct.price}',
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 20,
+                    fontSize: 25,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 25,
                 ),
                 Container(
+                  //color: Colors.yellowAccent,
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   width: double.infinity,
                   child: Text(
                     loadedProduct.description,
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'Lato', fontWeight: FontWeight.w100),
                     softWrap: true,
                   ),
                 ),

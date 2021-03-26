@@ -30,7 +30,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     //final orderData = Provider.of<Orders>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Orders'),
+        title: Text('Your Donations'),
       ),
       drawer: AppDrawer(),
       body: FutureBuilder(

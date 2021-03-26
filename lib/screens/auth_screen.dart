@@ -24,8 +24,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  Color.fromRGBO(153, 187, 255, .2).withOpacity(1),
+                  Color.fromRGBO(0, 78, 255, .6).withOpacity(0),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -43,15 +43,15 @@ class AuthScreen extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 20.0),
+                      margin: EdgeInsets.only(bottom: 10.0),
                       padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                      transform: Matrix4.rotationZ(-8 * pi / 180)
-                        ..translate(-10.0),
+                          EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+                      //transform: Matrix4.rotationZ(-8 * pi / 180)
+                      //  ..translate(-8.0),
                       // ..translate(-10.0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange.shade900,
+                        borderRadius: BorderRadius.circular(40),
+                        color: Colors.white,
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 8,
@@ -61,12 +61,13 @@ class AuthScreen extends StatelessWidget {
                         ],
                       ),
                       child: Text(
-                        'MyShop',
+                        'Aabhar',
                         style: TextStyle(
-                          color: Theme.of(context).accentTextTheme.title.color,
-                          fontSize: 50,
-                          fontFamily: 'Anton',
-                          fontWeight: FontWeight.normal,
+                          color: Colors.blue
+                              .shade500, //Theme.of(context).accentTextTheme.title.color,
+                          fontSize: 60,
+                          fontFamily: 'Pacifico',
+                          //fontWeight: FontWeight.w100,
                         ),
                       ),
                     ),
@@ -129,7 +130,7 @@ class _AuthCardState extends State<AuthCard>
     _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Curves.easeIn,
+        curve: Curves.bounceIn,
       ),
     );
     // _heightAnimation.addListener(() => setState(() {}));
@@ -186,13 +187,13 @@ class _AuthCardState extends State<AuthCard>
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'This email address is already in use.';
+        errorMessage = 'This email address / username is already in use.';
       } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email address';
+        errorMessage = 'This is not a valid email address / username';
       } else if (error.toString().contains('WEAK_PASSWORD')) {
         errorMessage = 'This password is too weak.';
       } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a user with that email.';
+        errorMessage = 'Could not find a user with that email / username.';
       } else if (error.toString().contains('INVALID_PASSWORD')) {
         errorMessage = 'Invalid password.';
       }
@@ -261,7 +262,7 @@ class _AuthCardState extends State<AuthCard>
                   obscureText: true,
                   controller: _passwordController,
                   validator: (value) {
-                    if (value.isEmpty || value.length < 5) {
+                    if (value.isEmpty || value.length < 4) {
                       return 'Password is too short!';
                     }
                   },
@@ -300,27 +301,50 @@ class _AuthCardState extends State<AuthCard>
                   height: 20,
                 ),
                 if (_isLoading)
-                  CircularProgressIndicator()
+                  //CircularProgressIndicator()
+
+                  MaterialApp(
+                    home: Scaffold(
+                      body: Center(
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset('assets/images/aabhar.jpg'),
+                            Text(
+                              'Loading......',
+                              style: TextStyle(
+                                color: Colors
+                                    .black, //Theme.of(context).accentTextTheme.title.color,
+                                fontSize: 30,
+                                fontFamily: 'Lato',
+                                fontWeight: FontWeight.w100,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
                 else
                   RaisedButton(
                     child:
                         Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
                     onPressed: _submit,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(40),
                     ),
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                    color: Theme.of(context).primaryColor,
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                    color:
+                        Colors.blue.shade700, //Theme.of(context).primaryColor,
                     textColor: Theme.of(context).primaryTextTheme.button.color,
                   ),
                 FlatButton(
                   child: Text(
-                      '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
+                      '${_authMode == AuthMode.Login ? 'SIGN UP' : 'LOGIN'} '),
                   onPressed: _switchAuthMode,
-                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 4),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  textColor: Theme.of(context).primaryColor,
+                  textColor: Colors.lightBlue, //Theme.of(context).primaryColor,
                 ),
               ],
             ),
